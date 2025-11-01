@@ -9,11 +9,12 @@ services:
       - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_DATASOURCE_URL=postgresql://postgres:nsaPrwdVevygQhtCcaTFPUbQOgeubpiS@postgres.railway.internal:5432/railway
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres.railway.internal:5432/railway
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=nsaPrwdVevygQhtCcaTFPUbQOgeubpiS
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - SPRING_JPA_SHOW_SQL=true
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.PostgreSQLDialect
     depends_on:
       postgres:
         condition: service_healthy
