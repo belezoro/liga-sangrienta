@@ -1,0 +1,52 @@
+services:
+  # Backend Web Service
+  - type: web
+    name: bloodleague-backend
+    env: docker
+    dockerfilePath: ./backend/core/Dockerfile
+    healthCheckPath: /actuator/health
+    numInstances: 1
+    buildCommand: "./mvnw clean package -DskipTests"
+    startCommand: "java -jar target/*.jar"
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: bloodleague-db
+          property: connectionString
+      - key: SPRING_DATASOURCE_USERNAME
+        fromDatabase:
+          name: bloodleague-db
+          property: user
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromDatabase:
+          name: bloodleague-db
+          property: password
+      - key: SPRING_JPA_HIBERNATE_DDL_AUTO
+        value: validate
+      - key: SPRING_JPA_SHOW_SQL
+        value: "false"
+      - key: SERVER_PORT
+        value: "8080"
+
+  # Frontend Web Service
+  - type: web
+    name: bloodleague-frontend
+    env: docker
+    dockerfilePath: ./frontend/bloodleague-web/Dockerfile
+    buildCommand: "npm ci && npm run build"
+    startCommand: "npm start"
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        value: https://bloodleague-backend.onrender.com
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "3000"
+
+databases:
+  - name: bloodleague-db
+    databaseName: bloodleague
+    user: bloodleague
+    plan: free
