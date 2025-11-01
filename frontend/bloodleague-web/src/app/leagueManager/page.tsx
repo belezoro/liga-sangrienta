@@ -60,7 +60,7 @@ export default function LeagueManager() {
         (async () => {
             try {
                 console.log("Fetching league with ID:", JSON.parse(storedLeagues));
-                const response = await axios.get<LeaguesDTO>("http://localhost:8080/leagues/getById", { params: { idLeague: JSON.parse(storedLeagues) } });
+                const response = await axios.get<LeaguesDTO>(`${process.env.NEXT_PUBLIC_API_URL}/leagues/getById`, { params: { idLeague: JSON.parse(storedLeagues) } });
                 setLeagues(response.data);
             } catch (error) {
                 console.error("Error fetching leagues:", error);
@@ -76,7 +76,7 @@ export default function LeagueManager() {
 
     const handleStartLeague = () => {
         if (!leagues) return;
-        axios.post(`http://localhost:8080/leagues/startLeague`, leagues, { params: { ai_player_count } })
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/leagues/startLeague`, leagues, { params: { ai_player_count } })
         .then(response => {
             setLeagues(response.data);
         })
@@ -116,7 +116,7 @@ export default function LeagueManager() {
         };
 
         const response = await axios.put(
-            `http://localhost:8080/matches/update`,
+            `${process.env.NEXT_PUBLIC_API_URL}/matches/update`,
             updatedMatch, { params: { id_league: leagues?.id } }
         );
 

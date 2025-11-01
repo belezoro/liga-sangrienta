@@ -37,8 +37,8 @@ export default function AllianceManager({ leagueId, sessionPlayer }: { leagueId:
   useEffect(() => {
     (async () => {
       const [playersRes, alliancesRes] = await Promise.all([
-        axios.get(`http://localhost:8080/players/byLeague?idLeague=${leagueId}`),
-        axios.get(`http://localhost:8080/alliances/byLeague?idLeague=${leagueId}`),
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/players/byLeague?idLeague=${leagueId}`),
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/alliances/byLeague?idLeague=${leagueId}`),
       ]);
       setPlayers(playersRes.data);
       setAlliances(alliancesRes.data);
@@ -49,7 +49,7 @@ export default function AllianceManager({ leagueId, sessionPlayer }: { leagueId:
   const createAlliance = async () => {
     if (!selectedPartner) return;
     try {
-      const res = await axios.post(`http://localhost:8080/alliances/create`, {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/alliances/create`, {
         league: {id: leagueId},
         playerA: {id: sessionPlayer.id},
         playerB: {id: selectedPartner},
@@ -63,7 +63,7 @@ export default function AllianceManager({ leagueId, sessionPlayer }: { leagueId:
 
   // Eliminar alianza
   const deleteAlliance = async (id: number) => {
-    await axios.delete(`http://localhost:8080/alliances/delete?id=${id}`);
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/alliances/delete?id=${id}`);
     setAlliances(alliances.filter(a => a.id !== id));
   };
 

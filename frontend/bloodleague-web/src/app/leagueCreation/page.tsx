@@ -23,7 +23,7 @@ export default function LeagueCreation() {
                 return;
             }
             const adminId = player.id;
-            const response = await axios.post("http://localhost:8080/leagues/create", { name: leagueName, id_admin: adminId });
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/leagues/create`, { name: leagueName, id_admin: adminId });
             if (response.status === 201) {
                 setMessage("¡Liga creada exitosamente!");
                 // Redirigir al panel del jugador

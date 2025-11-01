@@ -20,7 +20,7 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/players/login", player);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/players/login`, player);
       if (response.status === 200 && response.data.id) {
         localStorage.setItem("player", JSON.stringify(response.data));
         // Redirigir al panel del jugador

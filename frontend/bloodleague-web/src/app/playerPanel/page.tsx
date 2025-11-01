@@ -26,7 +26,7 @@ export default function PlayerPanel() {
         const storedPlayer = localStorage.getItem("player");
         if (storedPlayer) {
             const parsed = JSON.parse(storedPlayer);
-            axios.get(`http://localhost:8080/players/${parsed.id}`)
+            axios.get(`${process.env.NEXT_PUBLIC_API_URL}/players/${parsed.id}`)
             .then(response => {
                 localStorage.setItem("player", JSON.stringify(response.data));
                 setPlayer(response.data);
@@ -46,7 +46,7 @@ export default function PlayerPanel() {
     const handleSubmit = () => {
         // Aquí puedes manejar la unión a una liga usando el leagueId
         if (!player) return;
-        axios.put(`http://localhost:8080/players/joinLeague/${player.id}/${leagueId}`)
+        axios.put(`${process.env.NEXT_PUBLIC_API_URL}/players/joinLeague/${player.id}/${leagueId}`)
         .then(response => {
             localStorage.setItem("player", JSON.stringify(response.data));
             setPlayer(response.data);

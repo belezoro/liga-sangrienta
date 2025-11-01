@@ -47,7 +47,7 @@ export default function LeagueRanking({ matches, players, league }: { matches: M
     useEffect(() => {
         (async () => {
         const [alliancesRes] = await Promise.all([
-            axios.get(`http://localhost:8080/alliances/byLeague?idLeague=${league.id}`),
+            axios.get(`${process.env.NEXT_PUBLIC_API_URL}/alliances/byLeague?idLeague=${league.id}`),
         ]);
         setAlliances(alliancesRes.data);
         })();
