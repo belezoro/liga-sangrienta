@@ -6,8 +6,6 @@ services:
     dockerfilePath: ./backend/core/Dockerfile
     healthCheckPath: /actuator/health
     numInstances: 1
-    buildCommand: "./mvnw clean package -DskipTests"
-    startCommand: "java -jar target/*.jar"
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
@@ -35,8 +33,6 @@ services:
     name: bloodleague-frontend
     env: docker
     dockerfilePath: ./frontend/bloodleague-web/Dockerfile
-    buildCommand: "npm ci && npm run build"
-    startCommand: "npm start"
     envVars:
       - key: NEXT_PUBLIC_API_URL
         value: https://bloodleague-backend.onrender.com
