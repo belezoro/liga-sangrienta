@@ -1,25 +1,6 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:15-alpine
-    environment:
-      POSTGRES_DB: bloodleague
-      POSTGRES_USER: bloodleague
-      POSTGRES_PASSWORD: bloodleague
-      POSTGRES_HOST_AUTH_METHOD: trust
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./backend/core/src/main/resources/db:/docker-entrypoint-initdb.d
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U bloodleague && psql -U bloodleague -d bloodleague -c 'SELECT 1 FROM players LIMIT 1'"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    command: ["postgres", "-c", "log_statement=all"]
-
   backend:
     build: 
       context: ./backend/core
@@ -28,10 +9,10 @@ services:
       - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/bloodleague
-      - SPRING_DATASOURCE_USERNAME=bloodleague
-      - SPRING_DATASOURCE_PASSWORD=bloodleague
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
+      - SPRING_DATASOURCE_URL=postgresql://postgres:nsaPrwdVevygQhtCcaTFPUbQOgeubpiS@postgres.railway.internal:5432/railway
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=nsaPrwdVevygQhtCcaTFPUbQOgeubpiS
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - SPRING_JPA_SHOW_SQL=true
     depends_on:
       postgres:
