@@ -1,12 +1,22 @@
 # Build stage
 FROM eclipse-temurin:21-jdk-alpine as builder
 WORKDIR /app
+
+# Copy Maven wrapper and make it executable
 COPY mvnw .
+RUN chmod +x mvnw
 COPY .mvn .mvn
+
+# Copy pom.xml for dependency resolution
 COPY pom.xml .
+
 # Download dependencies first (cached layer)
 RUN ./mvnw dependency:go-offline
+
+# Copy source code
 COPY src src
+
+# Build the application
 RUN ./mvnw package -DskipTests
 
 # Run stage
