@@ -12,10 +12,14 @@ public class WebConfig implements WebMvcConfigurer {
 
             @Override
             public void addCorsMappings(@NonNull CorsRegistry registry) {
+                // Allow requests from the frontend. In production you should set
+                // a specific frontend origin (or a comma-separated list) in an
+                // environment variable and load it here. For convenience we allow
+                // all origins using allowedOriginPatterns which supports wildcards.
+                // This fixes CORS errors when the frontend is served from a
+                // different generated domain (e.g. Railway).
                 registry.addMapping("/**")
-                        .allowedOrigins(
-                            "http://localhost:3000",
-                            "https://bubbly-stillness-production.up.railway.app")
+                        .allowedOriginPatterns("*")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
