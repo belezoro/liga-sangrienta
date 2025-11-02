@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-
+import { getApiUrl } from "@/config/api";
 
 interface Players{
     nick: string;
@@ -23,9 +23,7 @@ export default function RegisterPlayer() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         // Aquí puedes manejar el registro del jugador usando los valores de nick, email y password
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-        console.log('API URL usada en build:', apiUrl);
-        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/players/createPlayer`, player)
+        axios.post(getApiUrl('/players/createPlayer'), player)
             .then(response => {
                 setMessage("Jugador registrado exitosamente");
             })
