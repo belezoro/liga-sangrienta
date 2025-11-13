@@ -81,27 +81,20 @@ export default function LeagueRanking({ matches, players, league }: { matches: M
             if(winner){
                 const loser = (match.teamA.id === winner.id) ? match.teamB.id : match.teamA.id;
     
-    
                 // Sumamos puntos
                 rankingMap[winner.id].points += 3;
                 rankingMap[winner.id].wins += 1;
                 rankingMap[loser].losses += 1;
-                rankingMap[winner.id].touchdownsAttack += pointsa;
-                rankingMap[loser].touchdownsDefense += pointsa;
-                rankingMap[loser].touchdownsAttack += pointsb;
-                rankingMap[winner.id].touchdownsDefense += pointsb;
             } else {
                 rankingMap[match.teamA.id].points += 1
                 rankingMap[match.teamA.id].draws += 1;
                 rankingMap[match.teamB.id].points += 1
                 rankingMap[match.teamB.id].draws += 1;
-                rankingMap[match.teamA.id].touchdownsAttack += pointsa;
-                rankingMap[match.teamB.id].touchdownsDefense += pointsa;
-                rankingMap[match.teamB.id].touchdownsAttack += pointsb;
-                rankingMap[match.teamA.id].touchdownsDefense += pointsb;
             }
-
-            
+            rankingMap[match.teamA.id].touchdownsAttack += pointsa;
+            rankingMap[match.teamB.id].touchdownsDefense += pointsa;
+            rankingMap[match.teamB.id].touchdownsAttack += pointsb;
+            rankingMap[match.teamA.id].touchdownsDefense += pointsb;
         }
     });
     
